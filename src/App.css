@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+
+.keyboard
+{
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.keyboard-row-1
+{
+  display:grid;
+  grid-template-columns: repeat(12,1fr);
+}
+.keyboard-row-2 {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  /* margin-left: 2rem; */
+  /* margin-right: 2rem; */
+}
+.keyboard-row-3 {
+  display: grid;
+  grid-template-columns: repeat(11, 1fr);
+  /* margin-left: 1rem; */
+  /* margin-right: 1rem; */
+}
+.words
+{
+  display:grid;
+  gap:10px;
+  grid-template-rows: repeat(6,1fr);
+}
+.word
+{
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(5,1fr);
+}
