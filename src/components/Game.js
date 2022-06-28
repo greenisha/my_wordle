@@ -24,7 +24,7 @@ function Game() {
     const daysPassed = Math.floor(((currentDate.getTime() - firstday.getTime()) / (1000 * 60 * 60 * 24)));
     console.log(wordsGuessBank[daysPassed]);
     setword(wordsGuessBank[daysPassed]);
-    if (localStorage.getItem('day') === null || localStorage.getItem('day')!=daysPassed)
+    if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
     {
       console.log('clear');
       localStorage.clear();
