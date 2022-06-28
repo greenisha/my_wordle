@@ -67,7 +67,7 @@
 {
   display:grid;
   gap:3px;
-  height: calc(75vh - 3rem);
+  height: calc(65vh - 3rem);
   height: 1fr;
   grid-template-rows: repeat(6,1fr);
 }
