@@ -44,6 +44,7 @@
 .keyboard
 {
   grid-template-rows: 1fr 1fr 1fr;
+  height: 25vh;
 }
 .keyboard-row-1
 {
@@ -66,8 +67,8 @@
 {
   display:grid;
   gap:3px;
-  
-  height: 100%;
+  height: calc(75vh - 3rem);
+  height: 1fr;
   grid-template-rows: repeat(6,1fr);
 }
 .word
@@ -75,7 +76,7 @@
   display: grid;
   gap: 3px;
   grid-template-columns: repeat(5,1fr);
-  min-height: 6rem;
+  min-height: 3rem;
 }
 .header 
 {
@@ -84,12 +85,13 @@
 }
 .body
 {
-  height: 100%;
+  
 } 
 .all
 {
   display: flex;
   flex-direction: column;
+  
 
 
 }
