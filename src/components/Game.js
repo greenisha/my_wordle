@@ -24,7 +24,10 @@ function Game() {
 
     const { wordPosition, letterPosition } = position;
     if (letterPosition >= 5) return;
-    if (wordPosition>=6) return;
+    if (wordPosition>=6) {
+      toast(`попытки закончились, увы. Слово было ${word}`);
+      return;
+    }
     const newWord = { ...words[wordPosition], [letterPosition]: letter };
     const newWords = { ...words, [wordPosition]: newWord };
     console.log(newWord, newWords);
@@ -43,7 +46,7 @@ function Game() {
   const pressEnter = () => {
     const { wordPosition, letterPosition } = position;
     if (wordPosition > 5) {
-      toast('попытки закончились, увы');
+      toast(`попытки закончились, увы. Слово было ${word}` );
       return;
     }
     if (letterPosition !== 5) {
@@ -75,7 +78,10 @@ function Game() {
     setstatus([...status, ...newstatus]);
     console.log([...status, ...newstatus]);
     setposition({ wordPosition: wordPosition + 1, letterPosition: 0 });
-
+    if (wordPosition > 5) {
+      toast(`попытки закончились, увы. Слово было ${word}`);
+      return;
+    }
 
   };
   const getStatus = (letter, wordPosition, letterPosition) => {
