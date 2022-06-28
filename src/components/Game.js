@@ -98,12 +98,16 @@ function Game() {
 
 
   return (
-    <div className='h-screen '>
+    <div className='all container mx-auto'>
+      <div className='header ' >some header</div>
+      <div className='body'>
       <WordContainer words={words} getStatus={getStatus}></WordContainer>
       <Keyboard onKey={pressLetter} getStatus={getStatus} onBackspace={pressBackspace} onEnter={pressEnter}></Keyboard>
       <Success shown={success} />
-      <ToastContainer />
-    </div>
+        <ToastContainer />
+      </div>
+      </div>
+    
   )
 }
 

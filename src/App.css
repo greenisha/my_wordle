@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+* {
+  box-sizing: border-box
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -62,6 +66,8 @@
 {
   display:grid;
   gap:3px;
+  
+  height: 100%;
   grid-template-rows: repeat(6,1fr);
 }
 .word
@@ -69,4 +75,21 @@
   display: grid;
   gap: 3px;
   grid-template-columns: repeat(5,1fr);
+  min-height: 6rem;
+}
+.header 
+{
+  height:3rem;
+  background-color: #7182a4;
+}
+.body
+{
+  height: 100%;
+} 
+.all
+{
+  display: flex;
+  flex-direction: column;
+
+
 }
