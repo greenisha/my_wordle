@@ -78,6 +78,14 @@
   grid-template-columns: repeat(5,1fr);
   min-height: 3rem;
 }
+.success
+{
+  position:absolute;
+  left:10vw;
+  top:8vh;
+  height: 84vh;
+  width: 80vw;
+} 
 .header 
 {
   height:3rem;

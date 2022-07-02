@@ -11,6 +11,7 @@ function Game() {
   const [status, setstatus] = useState([]);
   const [word, setword] = useState('');
   const [success, setsuccess] = useState(false);
+  const [shown, setshown] = useState(false);
   const [position, setposition] = useState({ wordPosition: 0, letterPosition: 0 })
 
   const defaultWord = '     ';
@@ -38,14 +39,19 @@ function Game() {
       setwords(JSON.parse(localStorage.getItem('words')));
       if (localStorage.getItem('position') !== null)
         setposition(JSON.parse(localStorage.getItem('position')));
-
+      if (localStorage.getItem('success') !== null)
+      {
+        setsuccess(JSON.parse(localStorage.getItem('success')));
+        setshown(JSON.parse(localStorage.getItem('success')));
+      }
       localStorage.setItem('day', daysPassed);
     }
   }, [])
 
   
   const pressLetter = (letter) => {
-
+    if(success)
+    return
     const { wordPosition, letterPosition } = position;
     if (letterPosition >= 5) return;
     if (wordPosition>=6) {
@@ -63,6 +69,8 @@ function Game() {
 
   };
   const pressBackspace = () => {
+    if (success)
+      return
     const { wordPosition, letterPosition } = position;
     if (letterPosition === 0) return;
     const newWord = { ...words[wordPosition], [letterPosition - 1]: ' ' };
@@ -73,6 +81,8 @@ function Game() {
     localStorage.setItem('words', JSON.stringify(newWords));
   };
   const pressEnter = () => {
+    if (success)
+      return
     const { wordPosition, letterPosition } = position;
     if (wordPosition > 5) {
       toast(`попытки закончились, увы. Слово было ${word}` );
@@ -91,6 +101,8 @@ function Game() {
     console.log(currentWord, word);
     if (currentWord === word) {
       setsuccess(true);
+      setshown(true);
+      localStorage.setItem('success', JSON.stringify(true));
     }
     const wordArr = [...word];
 
@@ -137,11 +149,11 @@ function Game() {
 
   return (
     <div className='all container mx-auto'>
-      <div className='header ' >some header</div>
+      <div className='header text-center text-3xl ' >Вордли</div>
       <div className='body'>
       <WordContainer words={words} getStatus={getStatus}></WordContainer>
       <Keyboard onKey={pressLetter} getStatus={getStatus} onBackspace={pressBackspace} onEnter={pressEnter}></Keyboard>
-      <Success shown={success} />
+      <Success shown={shown} setshown={setshown} />
         <ToastContainer />
       </div>
       </div>
