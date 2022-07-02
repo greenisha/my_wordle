@@ -24,8 +24,10 @@ function Game() {
     const currentDate = new Date();
     const daysPassed = Math.floor(((currentDate.getTime() - firstday.getTime()) / (1000 * 60 * 60 * 24)));
     console.log(wordsGuessBank[daysPassed]);
-    setword(wordsGuessBank[daysPassed]);
-    if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
+    // setword(wordsGuessBank[daysPassed]);
+    setword('погон'); 
+    //if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
+    if(true)
     {
       console.log('clear');
       localStorage.clear();
@@ -93,7 +95,7 @@ function Game() {
       return;
     }
     
-    const currentWord = Object.values(words[wordPosition]).join("");
+    var currentWord = Object.values(words[wordPosition]).join("");
     if (!wordsBank.includes(currentWord)) {
       toast('Не знаю такого слова');
       return;
@@ -105,15 +107,23 @@ function Game() {
       localStorage.setItem('success', JSON.stringify(true));
     }
     const wordArr = [...word];
-
-    const newstatus = Object.values(words[wordPosition]).map((letter, index) => {
+    let haveLetters = [];
+    let newstatus = [];
+    Object.values(words[wordPosition]).forEach((letter, index) => {
       if (wordArr[index] === letter) {
-        return { letter: letter, color: 'green', wordPosition: wordPosition, letterPosition: index };
+        wordArr[index]=' ';
+        newstatus.push({ letter: letter, color: 'green', wordPosition: wordPosition, letterPosition: index });
       }
-      if (wordArr.includes(letter)) {
-        return { letter: letter, color: 'yellow', wordPosition: wordPosition, letterPosition: index };
+    });
+
+    Object.values(words[wordPosition]).forEach((letter, index) => {
+      if (wordArr.includes(letter) && wordArr[index] !== letter && !haveLetters.find(([letterInner,positionInner])=>{
+        console.log(letterInner, positionInner,letter,index);
+        return ((letter === letterInner) && (positionInner===index)) 
+      })) {
+        newstatus.push({ letter: letter, color: 'yellow', wordPosition: wordPosition, letterPosition: index });
       }
-      return { letter: letter, color: 'grey', wordPosition: wordPosition, letterPosition: index };
+      newstatus.push({ letter: letter, color: 'grey', wordPosition: wordPosition, letterPosition: index });
 
     });
     setstatus([...status, ...newstatus]);
