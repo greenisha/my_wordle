@@ -24,10 +24,9 @@ function Game() {
     const currentDate = new Date();
     const daysPassed = Math.floor(((currentDate.getTime() - firstday.getTime()) / (1000 * 60 * 60 * 24)));
     console.log(wordsGuessBank[daysPassed]);
-    // setword(wordsGuessBank[daysPassed]);
-    setword('погон'); 
-    //if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
-    if(true)
+    setword(wordsGuessBank[daysPassed]);
+    //setword('погон'); 
+    if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
     {
       console.log('clear');
       localStorage.clear();
@@ -107,7 +106,6 @@ function Game() {
       localStorage.setItem('success', JSON.stringify(true));
     }
     const wordArr = [...word];
-    let haveLetters = [];
     let newstatus = [];
     Object.values(words[wordPosition]).forEach((letter, index) => {
       if (wordArr[index] === letter) {
@@ -117,10 +115,7 @@ function Game() {
     });
 
     Object.values(words[wordPosition]).forEach((letter, index) => {
-      if (wordArr.includes(letter) && wordArr[index] !== letter && !haveLetters.find(([letterInner,positionInner])=>{
-        console.log(letterInner, positionInner,letter,index);
-        return ((letter === letterInner) && (positionInner===index)) 
-      })) {
+      if (wordArr.includes(letter) && wordArr[index] !== letter) {
         newstatus.push({ letter: letter, color: 'yellow', wordPosition: wordPosition, letterPosition: index });
       }
       newstatus.push({ letter: letter, color: 'grey', wordPosition: wordPosition, letterPosition: index });
