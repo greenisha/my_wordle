@@ -128,7 +128,7 @@ function Game() {
     localStorage.setItem('status', JSON.stringify([...status, ...newstatus]));
 
     if (wordPosition > 5) {
-      toast(`попытки закончились, увы. Слово было ${word}`);
+      toast(`Попытки закончились, увы. Слово было ${word}`);
       return;
     }
 
