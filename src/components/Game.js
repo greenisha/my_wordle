@@ -1,30 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import Keyboard from './Keyboard'
 import WordContainer from './WordContainer'
-import wordsBank from '../words';
+import wordsBank from '../wordsBank';
 import wordsGuessBank from '../wordsGuess';
 import Success from './Success';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Selector from './Selector';
 //3482
 function Game() {
   const [status, setstatus] = useState([]);
+  const [mode,setMode] = useState(5);
   const [word, setword] = useState('');
   const [success, setsuccess] = useState(false);
   const [shown, setshown] = useState(false);
   const [position, setposition] = useState({ wordPosition: 0, letterPosition: 0 })
 
-  const defaultWord = '     ';
+  const defaultWordArray = [...new Array(mode)];
   const [words, setwords] = useState({
-    0: [...defaultWord], 1: [...defaultWord], 2: [...defaultWord]
-    , 3: [...defaultWord], 4: [...defaultWord], 5: [...defaultWord]
+    0: defaultWordArray.slice(), 1: defaultWordArray.slice(), 2: defaultWordArray.slice()
+    , 3: defaultWordArray.slice(), 4: defaultWordArray.slice(), 5: defaultWordArray.slice()
   });
   useEffect(() => {
-    const firstday = new Date('2022-05-28');
+    const firstday = new Date('2022-07-07');
     const currentDate = new Date();
     const daysPassed = Math.floor(((currentDate.getTime() - firstday.getTime()) / (1000 * 60 * 60 * 24)));
-    console.log(wordsGuessBank[daysPassed]);
-    setword(wordsGuessBank[daysPassed]);
+    console.log(wordsGuessBank['letter_'+mode][daysPassed]);
+    setword(wordsGuessBank['letter_'+mode][daysPassed]);
     //setword('погон'); 
     if (localStorage.getItem('day') === null || localStorage.getItem('day')!==daysPassed.toString())
     {
@@ -34,27 +36,44 @@ function Game() {
     }
     else
     {
-      if (localStorage.getItem('status')!==null)
-      setstatus(JSON.parse(localStorage.getItem('status')));
-      if (localStorage.getItem('words') !== null)
-      setwords(JSON.parse(localStorage.getItem('words')));
-      if (localStorage.getItem('position') !== null)
-        setposition(JSON.parse(localStorage.getItem('position')));
-      if (localStorage.getItem('success') !== null)
+      //initial
+
+      if (localStorage.getItem('status'+mode)!==null)
+      setstatus(JSON.parse(localStorage.getItem('status'+mode)));
+      else
+      setstatus([]);
+      if (localStorage.getItem('words' + mode) !== null)
+      setwords(JSON.parse(localStorage.getItem('words'+mode)));
+      else
+      {
+        const defaultWordArray = [...new Array(mode)];
+        setwords({
+          0: defaultWordArray.slice(), 1: defaultWordArray.slice(), 2: defaultWordArray.slice()
+          , 3: defaultWordArray.slice(), 4: defaultWordArray.slice(), 5: defaultWordArray.slice()
+        });
+      }
+      if (localStorage.getItem('position' + mode) !== null)
+        setposition(JSON.parse(localStorage.getItem('position'+mode)));
+      else
+        setposition({ wordPosition: 0, letterPosition: 0 });
+      if (localStorage.getItem('mode') !== null)
+       setMode(JSON.parse(localStorage.getItem('mode')));
+
+      if (localStorage.getItem('success' + mode) !== null)
       {
         setsuccess(JSON.parse(localStorage.getItem('success')));
         setshown(JSON.parse(localStorage.getItem('success')));
       }
       localStorage.setItem('day', daysPassed);
     }
-  }, [])
+  }, [mode])
 
   
   const pressLetter = (letter) => {
     if(success)
     return
     const { wordPosition, letterPosition } = position;
-    if (letterPosition >= 5) return;
+    if (letterPosition >= mode) return;
     if (wordPosition>=6) {
       toast(`попытки закончились, увы. Слово было ${word}`);
       return;
@@ -65,8 +84,8 @@ function Game() {
 
     setwords(newWords);
     setposition({ wordPosition, letterPosition: letterPosition + 1 });
-    localStorage.setItem('position', JSON.stringify({ wordPosition, letterPosition:letterPosition  + 1 }));
-    localStorage.setItem('words', JSON.stringify(newWords));
+    localStorage.setItem('position' + mode, JSON.stringify({ wordPosition, letterPosition:letterPosition  + 1 }));
+    localStorage.setItem('words' + mode, JSON.stringify(newWords));
 
   };
   const pressBackspace = () => {
@@ -78,24 +97,24 @@ function Game() {
     const newWords = { ...words, [wordPosition]: newWord };
     setwords(newWords);
     setposition({ wordPosition, letterPosition: letterPosition - 1 });
-    localStorage.setItem('position', JSON.stringify({ wordPosition, letterPosition:letterPosition-1 }));
-    localStorage.setItem('words', JSON.stringify(newWords));
+    localStorage.setItem('position' + mode, JSON.stringify({ wordPosition, letterPosition:letterPosition-1 }));
+    localStorage.setItem('words' + mode, JSON.stringify(newWords));
   };
   const pressEnter = () => {
     if (success)
       return
     const { wordPosition, letterPosition } = position;
-    if (wordPosition > 5) {
+    if (wordPosition > mode) {
       toast(`попытки закончились, увы. Слово было ${word}` );
       return;
     }
-    if (letterPosition !== 5) {
-      toast('Слово должно содержать 5 букв!');
+    if (letterPosition !== mode) {
+      toast(`Слово должно содержать ${mode} букв!`);
       return;
     }
     
     var currentWord = Object.values(words[wordPosition]).join("");
-    if (!wordsBank.includes(currentWord)) {
+    if (!wordsBank['letter_'+mode].includes(currentWord)) {
       toast('Не знаю такого слова');
       return;
     }
@@ -103,7 +122,7 @@ function Game() {
     if (currentWord === word) {
       setsuccess(true);
       setshown(true);
-      localStorage.setItem('success', JSON.stringify(true));
+      localStorage.setItem('success' + mode, JSON.stringify(true));
     }
     let wordArr = [...word];
     let newstatus = [];
@@ -126,8 +145,8 @@ function Game() {
     setstatus([...status, ...newstatus]);
     console.log([...status, ...newstatus]);
     setposition({ wordPosition: wordPosition + 1, letterPosition: 0 });
-    localStorage.setItem('position',JSON.stringify({wordPosition: wordPosition+1,letterPosition : 0}));
-    localStorage.setItem('status', JSON.stringify([...status, ...newstatus]));
+    localStorage.setItem('position' + mode,JSON.stringify({wordPosition: wordPosition+1,letterPosition : 0}));
+    localStorage.setItem('status' + mode, JSON.stringify([...status, ...newstatus]));
 
     if (wordPosition > 5) {
       toast(`Попытки закончились, увы. Слово было ${word}`);
@@ -152,11 +171,16 @@ function Game() {
     }
 
   };
+  const setModeStorage = (mode)=>
+  {
+    setMode(mode);
+    localStorage.setItem('mode',mode);
+  }
 
 
   return (
     <div className='all container mx-auto'>
-      <div className='header text-center text-3xl ' >Вордли</div>
+      <div className='header text-center text-3xl ' >Вордли <Selector setMode={setModeStorage} mode={mode} newMode={5} /><Selector setMode={setModeStorage} mode={mode} newMode={6} /><Selector setMode={setModeStorage} mode={mode} newMode={7} /></div>
       <div className='body'>
       <WordContainer words={words} getStatus={getStatus}></WordContainer>
       <Keyboard onKey={pressLetter} getStatus={getStatus} onBackspace={pressBackspace} onEnter={pressEnter}></Keyboard>

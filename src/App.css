@@ -73,10 +73,13 @@
 }
 .word
 {
-  display: grid;
-  gap: 3px;
-  grid-template-columns: repeat(5,1fr);
+  display: flex;
+  flex-direction: row;
   min-height: 3rem;
+}
+.mode-active
+{
+  border:2px solid;
 }
 .success
 {
