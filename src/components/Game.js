@@ -64,6 +64,12 @@ function Game() {
         setsuccess(JSON.parse(localStorage.getItem('success')));
         setshown(JSON.parse(localStorage.getItem('success')));
       }
+      else
+      {
+        setsuccess(false);
+        setshown(false);
+      }
+
       localStorage.setItem('day', daysPassed);
     }
   }, [mode])
