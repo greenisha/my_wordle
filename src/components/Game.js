@@ -116,6 +116,7 @@ function Game() {
 
     Object.values(words[wordPosition]).forEach((letter, index) => {
       if (wordArr.includes(letter) && wordArr[index] !== letter) {
+        wordArr[index] = ' ';
         newstatus.push({ letter: letter, color: 'yellow', wordPosition: wordPosition, letterPosition: index });
       }
       newstatus.push({ letter: letter, color: 'grey', wordPosition: wordPosition, letterPosition: index });
