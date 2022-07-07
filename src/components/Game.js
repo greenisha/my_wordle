@@ -105,7 +105,7 @@ function Game() {
       setshown(true);
       localStorage.setItem('success', JSON.stringify(true));
     }
-    const wordArr = [...word];
+    let wordArr = [...word];
     let newstatus = [];
     Object.values(words[wordPosition]).forEach((letter, index) => {
       if (wordArr[index] === letter) {
@@ -116,7 +116,8 @@ function Game() {
 
     Object.values(words[wordPosition]).forEach((letter, index) => {
       if (wordArr.includes(letter) && wordArr[index] !== letter) {
-        wordArr[index] = ' ';
+        const foundIndex = wordArr.findIndex((item) => {return item===letter} );
+        wordArr[foundIndex] = ' ';
         newstatus.push({ letter: letter, color: 'yellow', wordPosition: wordPosition, letterPosition: index });
       }
       newstatus.push({ letter: letter, color: 'grey', wordPosition: wordPosition, letterPosition: index });
