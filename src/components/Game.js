@@ -22,7 +22,7 @@ function Game() {
     , 3: defaultWordArray.slice(), 4: defaultWordArray.slice(), 5: defaultWordArray.slice()
   });
   useEffect(() => {
-    const firstday = new Date('2022-07-07');
+    const firstday = new Date('2022-07-05');
     const currentDate = new Date();
     const daysPassed = Math.floor(((currentDate.getTime() - firstday.getTime()) / (1000 * 60 * 60 * 24)));
     console.log(wordsGuessBank['letter_'+mode][daysPassed]);
@@ -61,8 +61,8 @@ function Game() {
 
       if (localStorage.getItem('success' + mode) !== null)
       {
-        setsuccess(JSON.parse(localStorage.getItem('success')));
-        setshown(JSON.parse(localStorage.getItem('success')));
+        setsuccess(JSON.parse(localStorage.getItem('success'+ mode)));
+        setshown(JSON.parse(localStorage.getItem('success'+ mode)));
       }
       else
       {
