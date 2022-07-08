@@ -16,7 +16,7 @@ function Game() {
   const [shown, setshown] = useState(false);
   const [position, setposition] = useState({ wordPosition: 0, letterPosition: 0 })
 
-  const defaultWordArray = [...new Array(mode)];
+  const defaultWordArray = [...new Array(mode)].map(value=>value??' ');
   const [words, setwords] = useState({
     0: defaultWordArray.slice(), 1: defaultWordArray.slice(), 2: defaultWordArray.slice()
     , 3: defaultWordArray.slice(), 4: defaultWordArray.slice(), 5: defaultWordArray.slice()
@@ -46,7 +46,7 @@ function Game() {
       setwords(JSON.parse(localStorage.getItem('words'+mode)));
       else
       {
-        const defaultWordArray = [...new Array(mode)];
+        const defaultWordArray = [...new Array(mode)].map(value => value ?? ' ');
         setwords({
           0: defaultWordArray.slice(), 1: defaultWordArray.slice(), 2: defaultWordArray.slice()
           , 3: defaultWordArray.slice(), 4: defaultWordArray.slice(), 5: defaultWordArray.slice()
@@ -84,7 +84,9 @@ function Game() {
       toast(`попытки закончились, увы. Слово было ${word}`);
       return;
     }
+
     const newWord = { ...words[wordPosition], [letterPosition]: letter };
+    console.log(newWord);
     const newWords = { ...words, [wordPosition]: newWord };
     console.log(newWord, newWords);
 

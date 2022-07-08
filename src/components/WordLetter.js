@@ -2,6 +2,7 @@ import React from 'react'
 
 function WordLetter({letter,getStatus,wordPosition,letterPosition}) {
   const color = getStatus(letter,wordPosition,letterPosition);
+  
   // console.log(color); 
   const addStyle = { backgroundColor:color,transition:'background-color 2s'};
   return (
